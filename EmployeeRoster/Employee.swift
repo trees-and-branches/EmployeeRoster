@@ -1,7 +1,8 @@
 
 import Foundation
 
-enum EmployeeType: CaseIterable, CustomStringConvertible {
+enum EmployeeType: CaseIterable, CustomStringConvertible { // case iterable is neat
+    
     case exempt
     case nonExempt
     case partTime

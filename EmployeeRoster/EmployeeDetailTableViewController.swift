@@ -48,6 +48,25 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0, indexPath.row == 2, isEditingBirthday == false {
+            return 0
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 0, indexPath.row == 1 { // u ever just forget that zero indexing exists? 
+            isEditingBirthday.toggle()
+            dobLabel.textColor = .label
+            dobLabel.text = dobDatePicker.date.formatted()
+            
+        }
+
+    }
+    
     private func updateSaveButtonState() {
         let shouldEnableSaveButton = nameTextField.text?.isEmpty == false
         saveBarButtonItem.isEnabled = shouldEnableSaveButton
@@ -58,7 +77,7 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
             return
         }
         
-        let employee = Employee(name: name, dateOfBirth: Date(), employeeType: .exempt)
+        let employee = Employee(name: name, dateOfBirth: dobDatePicker.date, employeeType: .exempt)
         delegate?.employeeDetailTableViewController(self, didSave: employee)
     }
     
@@ -69,5 +88,11 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     @IBAction func nameTextFieldDidChange(_ sender: UITextField) {
         updateSaveButtonState()
     }
-
+    
+    @IBAction func dobDatePickerValueChanged(_ sender: Any) {
+        
+        dobLabel.text = dobDatePicker.date.formatted()
+    }
+    
+    
 }
